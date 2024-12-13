@@ -5,25 +5,25 @@ import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 public class InputView {
-    public MonthDay readMonthDay(DayOfWeek dayOfWeek) {
-        MonthDay monthDay = null;
-        while(monthDay == null) {
+    public SettingDate readSettingDate(DayOfWeek dayOfWeek) {
+        SettingDate settingDate = null;
+        while(settingDate == null) {
             try {
                 System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
-                String monthDayCandidate = Console.readLine();
-                monthDay = parse(monthDayCandidate, dayOfWeek);
+                String settingDateCandidate = Console.readLine();
+                settingDate = parse(settingDateCandidate, dayOfWeek);
             }
             catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return monthDay;
+        return settingDate;
     }
 
-    private MonthDay parse(String monthDayCandidate, DayOfWeek dayOfWeek) {
+    private SettingDate parse(String settingDateCandidate, DayOfWeek dayOfWeek) {
         int monthCandidate;
         String dayCandidate;
-        String[] split = monthDayCandidate.split(",");
+        String[] split = settingDateCandidate.split(",");
         if(split.length != 2) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
         }
@@ -43,7 +43,7 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
         }
 
-        return new MonthDay(monthCandidate, dayCandidate);
+        return new SettingDate(monthCandidate, dayCandidate);
     }
 
     public WorkOrder readWorkOrder() {

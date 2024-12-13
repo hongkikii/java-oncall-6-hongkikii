@@ -21,10 +21,10 @@ public class DayOfWeek {
         return orderedValue.contains(dayOfWeekCandidate);
     }
 
-    public void orderedBy(String start) {
+    public void orderedBy(SettingDate settingDate) {
         while(true) {
             String currentStart = orderedValue.peek();
-            if(currentStart.equals(start)) {
+            if(currentStart.equals(settingDate.dayOfWeek())) {
                 break;
             }
             String newLast = orderedValue.poll();

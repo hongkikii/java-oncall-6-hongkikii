@@ -7,12 +7,12 @@ import java.util.List;
 
 public class WorkTable {
     private final List<WorkInfo> workInfos;
-    private final MonthDay monthDay;
+    private final SettingDate settingDate;
     private final WorkOrder workOrder;
     private final DayOfWeek dayOfWeek;
 
-    public WorkTable(MonthDay monthDay, WorkOrder workOrder, DayOfWeek dayOfWeek) {
-        this.monthDay = monthDay;
+    public WorkTable(SettingDate settingDate, WorkOrder workOrder, DayOfWeek dayOfWeek) {
+        this.settingDate = settingDate;
         this.workOrder = workOrder;
         this.dayOfWeek = dayOfWeek;
         this.workInfos = new ArrayList<>();
@@ -31,7 +31,7 @@ public class WorkTable {
         // 맞으면 새로운 사람 꺼내고, 다시 첫번째에 넣어버리기
         // 꺼내진 사람 등록!
 
-        Calendar calendar = Calendar.getBy(monthDay.getMonth());
+        Calendar calendar = Calendar.getBy(settingDate.month());
         int lastDay = calendar.getLastDay();
         for (int i = 1; i <= lastDay; i++) {
             String dayOfWeek = this.dayOfWeek.getNow();
@@ -47,7 +47,7 @@ public class WorkTable {
                     candidate = newCandidate;
                 }
             }
-            String formatMonth = monthDay.getMonth() + "월";
+            String formatMonth = settingDate.month() + "월";
             String formatDay = i + "일";
             if (!(dayOfWeek.equals("토") || dayOfWeek.equals("일")) && calendar.isHoliday(i)) {
                 dayOfWeek += "(휴일)";

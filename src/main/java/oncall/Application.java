@@ -5,10 +5,10 @@ public class Application {
         // TODO: 프로그램 구현
         DayOfWeek dayOfWeek = new DayOfWeek();
         InputView inputView = new InputView();
-        MonthDay monthDay = inputView.readMonthDay(dayOfWeek);
+        SettingDate settingDate = inputView.readSettingDate(dayOfWeek);
         WorkOrder workOrder = inputView.readWorkOrder();
-        dayOfWeek.orderedBy(monthDay.getDay());
-        WorkTable workTable = new WorkTable(monthDay, workOrder, dayOfWeek);
+        dayOfWeek.orderedBy(settingDate);
+        WorkTable workTable = new WorkTable(settingDate, workOrder, dayOfWeek);
         OutputView outputView = new OutputView();
         outputView.show(workTable);
     }
