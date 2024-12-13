@@ -29,7 +29,7 @@ public class WorkInfo {
         return worker;
     }
 
-    public String getFormattedInfo() {
+    public String getFormatted() {
         return month + " " + day + " " + dayOfWeek + " " + worker;
     }
 }
