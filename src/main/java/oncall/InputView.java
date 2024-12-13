@@ -1,20 +1,17 @@
 package oncall;
 
 import camp.nextstep.edu.missionutils.Console;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.regex.Pattern;
 
 public class InputView {
-    public MonthDay readMonthDay(Day day) {
+    public MonthDay readMonthDay(DayOfWeek dayOfWeek) {
         MonthDay monthDay = null;
         while(monthDay == null) {
             try {
                 System.out.print("비상 근무를 배정할 월과 시작 요일을 입력하세요> ");
                 String monthDayCandidate = Console.readLine();
-                monthDay = parse(monthDayCandidate, day);
+                monthDay = parse(monthDayCandidate, dayOfWeek);
             }
             catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -23,7 +20,7 @@ public class InputView {
         return monthDay;
     }
 
-    private MonthDay parse(String monthDayCandidate, Day day) {
+    private MonthDay parse(String monthDayCandidate, DayOfWeek dayOfWeek) {
         int monthCandidate;
         String dayCandidate;
         String[] split = monthDayCandidate.split(",");
@@ -39,7 +36,7 @@ public class InputView {
 
             // 요일 검증
             dayCandidate = split[1];
-            if(!day.isContained(dayCandidate)) {
+            if(!dayOfWeek.isContained(dayCandidate)) {
                 throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
             }
         } catch (NumberFormatException e) {

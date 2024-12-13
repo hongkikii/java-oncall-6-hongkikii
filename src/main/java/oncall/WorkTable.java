@@ -9,12 +9,12 @@ public class WorkTable {
     private final List<WorkInfo> workInfos;
     private final MonthDay monthDay;
     private final WorkOrder workOrder;
-    private final Day day;
+    private final DayOfWeek dayOfWeek;
 
-    public WorkTable(MonthDay monthDay, WorkOrder workOrder, Day day) {
+    public WorkTable(MonthDay monthDay, WorkOrder workOrder, DayOfWeek dayOfWeek) {
         this.monthDay = monthDay;
         this.workOrder = workOrder;
-        this.day = day;
+        this.dayOfWeek = dayOfWeek;
         this.workInfos = new ArrayList<>();
         initialize();
     }
@@ -34,7 +34,7 @@ public class WorkTable {
         Calendar calendar = Calendar.getBy(monthDay.getMonth());
         int lastDay = calendar.getLastDay();
         for (int i = 1; i <= lastDay; i++) {
-            String dayOfWeek = day.getNowDay();
+            String dayOfWeek = this.dayOfWeek.getNow();
             LinkedList<String> workers = workOrder.getWeekday();
             if(dayOfWeek.equals("토") || dayOfWeek.equals("일") || calendar.isHoliday(i)) {
                 workers = workOrder.getHoliday();

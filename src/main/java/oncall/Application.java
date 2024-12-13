@@ -3,12 +3,12 @@ package oncall;
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        Day day = new Day();
+        DayOfWeek dayOfWeek = new DayOfWeek();
         InputView inputView = new InputView();
-        MonthDay monthDay = inputView.readMonthDay(day);
+        MonthDay monthDay = inputView.readMonthDay(dayOfWeek);
         WorkOrder workOrder = inputView.readWorkOrder();
-        day.orderedBy(monthDay.getDay());
-        WorkTable workTable = new WorkTable(monthDay, workOrder, day);
+        dayOfWeek.orderedBy(monthDay.getDay());
+        WorkTable workTable = new WorkTable(monthDay, workOrder, dayOfWeek);
         OutputView outputView = new OutputView();
         outputView.show(workTable);
     }
