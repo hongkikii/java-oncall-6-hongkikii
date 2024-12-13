@@ -2,6 +2,7 @@ package oncall;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class InputView {
@@ -22,40 +23,45 @@ public class InputView {
 
     private SettingDate parse(String settingDateCandidate, DayOfWeek dayOfWeek) {
         int monthCandidate;
-        String dayCandidate;
+        String dayOfWeekCandidate;
         String[] split = settingDateCandidate.split(",");
-        if(split.length != 2) {
+        validateSettingDateSize(split);
+        monthCandidate = validateMonth(split[0]);
+        dayOfWeekCandidate = validateDayOfWeek(split[1], dayOfWeek);
+        return new SettingDate(monthCandidate, dayOfWeekCandidate);
+    }
+
+    private String validateDayOfWeek(String dayOfWeekCandidate, DayOfWeek dayOfWeek) {
+        if(!dayOfWeek.isContained(dayOfWeekCandidate)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
         }
-        try {
-            // 월 검증
-            monthCandidate = Integer.parseInt(split[0]);
-            if (monthCandidate < 1 || monthCandidate > 12) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-            }
+        return dayOfWeekCandidate;
+    }
 
-            // 요일 검증
-            dayCandidate = split[1];
-            if(!dayOfWeek.isContained(dayCandidate)) {
+    private int validateMonth(String monthCandidate) {
+        try {
+            int month = Integer.parseInt(monthCandidate);
+            if (month < 1 || month > 12) {
                 throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
             }
+            return month;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
         }
+    }
 
-        return new SettingDate(monthCandidate, dayCandidate);
+    private void validateSettingDateSize(String[] settingDateCandidate) {
+        if(settingDateCandidate.length != 2) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
     }
 
     public WorkOrder readWorkOrder() {
         WorkOrder workOrder = null;
         while(workOrder == null) {
             try {
-                System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
-                String weekdayOrderCandidate = Console.readLine();
-                LinkedList<String> weekdayOrder = parse(weekdayOrderCandidate);
-                System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
-                String holidayOrderCandidate = Console.readLine();
-                LinkedList<String> holidayOrder  = parse(holidayOrderCandidate);
+                LinkedList<String> weekdayOrder = getWeekDayOrder();
+                LinkedList<String> holidayOrder = getHolidayOrder();
                 workOrder = new WorkOrder(weekdayOrder, holidayOrder);
             }
             catch (IllegalArgumentException e) {
@@ -65,24 +71,48 @@ public class InputView {
         return workOrder;
     }
 
-    private LinkedList<String> parse(String weekdayOrderCandidate) {
+    private LinkedList<String> getWeekDayOrder() {
+        System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+        String weekdayOrderCandidate = Console.readLine();
+        return parse(weekdayOrderCandidate);
+    }
+
+    private LinkedList<String> getHolidayOrder() {
+        System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+        String holidayOrderCandidate = Console.readLine();
+        return parse(holidayOrderCandidate);
+    }
+
+    private LinkedList<String> parse(String orderCandidate) {
         LinkedList<String> result = new LinkedList<>();
-        if(weekdayOrderCandidate.endsWith(",")) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-        }
-        String[] split = weekdayOrderCandidate.split(",");
-        if(split.length < 5 || split.length > 35) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-        }
+        validateForm(orderCandidate);
+        String[] split = orderCandidate.split(",");
+        validateOrderSize(split);
         for(String nickname : split) {
-            if(!Pattern.matches("^[가-힣]{1,5}$", nickname)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-            }
-            if(result.contains(nickname)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-            }
+            validate(nickname, result);
             result.add(nickname);
         }
         return result;
+    }
+
+    private void validateForm(String weekdayOrderCandidate) {
+        if(weekdayOrderCandidate.endsWith(",")) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private void validateOrderSize(String[] orderCandidates) {
+        if(orderCandidates.length < 5 || orderCandidates.length > 35) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private void validate(String nickName, List<String> workOrder) {
+        if(!Pattern.matches("^[가-힣]{1,5}$", nickName)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
+        if(workOrder.contains(nickName)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
     }
 }
