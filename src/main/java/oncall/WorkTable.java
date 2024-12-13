@@ -59,6 +59,6 @@ public class WorkTable {
 
     private boolean isSameWithLastWorker(String candidate) {
         WorkInfo workInfo = workInfos.get(workInfos.size() - 1);
-        return workInfo.getWorker().equals(candidate);
+        return workInfo.worker().equals(candidate);
     }
 }
