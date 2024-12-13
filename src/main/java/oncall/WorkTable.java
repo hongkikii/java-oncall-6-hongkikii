@@ -35,9 +35,9 @@ public class WorkTable {
         int lastDay = calendar.getLastDay();
         for (int i = 1; i <= lastDay; i++) {
             String dayOfWeek = this.dayOfWeek.getNow();
-            LinkedList<String> workers = workOrder.getWeekday();
+            LinkedList<String> workers = workOrder.weekday();
             if(dayOfWeek.equals("토") || dayOfWeek.equals("일") || calendar.isHoliday(i)) {
-                workers = workOrder.getHoliday();
+                workers = workOrder.holiday();
             }
             String candidate = workers.pollFirst();
             if(!workInfos.isEmpty()) {
