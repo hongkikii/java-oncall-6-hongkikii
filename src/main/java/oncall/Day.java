@@ -20,4 +20,26 @@ public class Day {
     public boolean isContained(String dayCandidate) {
         return orderedDayInfo.contains(dayCandidate);
     }
+
+    public void orderedBy(String startDay) {
+        while(true) {
+            String currentStartDay = orderedDayInfo.peek();
+            if(currentStartDay.equals(startDay)) {
+                break;
+            }
+            String newLastElement = orderedDayInfo.poll();
+            orderedDayInfo.add(newLastElement);
+        }
+    }
+
+    public String getNowDay() {
+        String poll = orderedDayInfo.poll();
+        orderedDayInfo.add(poll);
+        return poll;
+    }
+
+    public boolean isWeekDay() {
+        String peek = orderedDayInfo.peek();
+        return !(peek.equals("토") || peek.equals("일"));
+    }
 }

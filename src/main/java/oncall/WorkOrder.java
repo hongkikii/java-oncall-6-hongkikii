@@ -1,21 +1,21 @@
 package oncall;
 
-import java.util.List;
+import java.util.LinkedList;
 
 public class WorkOrder {
-    private final List<String> weekday;
-    private final List<String> holiday;
+    private final LinkedList<String> weekday;
+    private final LinkedList<String> holiday;
 
-    public WorkOrder(List<String> weekday, List<String> holiday) {
+    public WorkOrder(LinkedList<String> weekday, LinkedList<String> holiday) {
         this.weekday = weekday;
         this.holiday = holiday;
     }
 
-    public List<String> getWeekday() {
+    public LinkedList<String> getWeekday() {
         return weekday;
     }
 
-    public List<String> getHoliday() {
+    public LinkedList<String> getHoliday() {
         return holiday;
     }
 }

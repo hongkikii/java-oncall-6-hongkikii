@@ -2,7 +2,9 @@ package oncall;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.regex.Pattern;
 
 public class InputView {
@@ -53,10 +55,10 @@ public class InputView {
             try {
                 System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
                 String weekdayOrderCandidate = Console.readLine();
-                List<String> weekdayOrder = parse(weekdayOrderCandidate);
+                LinkedList<String> weekdayOrder = parse(weekdayOrderCandidate);
                 System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
                 String holidayOrderCandidate = Console.readLine();
-                List<String> holidayOrder  = parse(holidayOrderCandidate);
+                LinkedList<String> holidayOrder  = parse(holidayOrderCandidate);
                 workOrder = new WorkOrder(weekdayOrder, holidayOrder);
             }
             catch (IllegalArgumentException e) {
@@ -66,8 +68,8 @@ public class InputView {
         return workOrder;
     }
 
-    private List<String> parse(String weekdayOrderCandidate) {
-        List<String> result = new ArrayList<>();
+    private LinkedList<String> parse(String weekdayOrderCandidate) {
+        LinkedList<String> result = new LinkedList<>();
         if(weekdayOrderCandidate.endsWith(",")) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
         }
