@@ -6,5 +6,6 @@ public class Application {
         Day day = new Day();
         InputView inputView = new InputView();
         MonthDay monthDay = inputView.readMonthDay(day);
+        WorkOrder workOrder = inputView.readWorkOrder();
     }
 }

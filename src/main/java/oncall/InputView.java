@@ -1,6 +1,9 @@
 package oncall;
 
 import camp.nextstep.edu.missionutils.Console;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class InputView {
     public MonthDay readMonthDay(Day day) {
@@ -42,5 +45,45 @@ public class InputView {
         }
 
         return new MonthDay(monthCandidate, dayCandidate);
+    }
+
+    public WorkOrder readWorkOrder() {
+        WorkOrder workOrder = null;
+        while(workOrder == null) {
+            try {
+                System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+                String weekdayOrderCandidate = Console.readLine();
+                List<String> weekdayOrder = parse(weekdayOrderCandidate);
+                System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+                String holidayOrderCandidate = Console.readLine();
+                List<String> holidayOrder  = parse(holidayOrderCandidate);
+                workOrder = new WorkOrder(weekdayOrder, holidayOrder);
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return workOrder;
+    }
+
+    private List<String> parse(String weekdayOrderCandidate) {
+        List<String> result = new ArrayList<>();
+        if(weekdayOrderCandidate.endsWith(",")) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
+        String[] split = weekdayOrderCandidate.split(",");
+        if(split.length < 5 || split.length > 35) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+        }
+        for(String nickname : split) {
+            if(!Pattern.matches("^[가-힣]{1,5}$", nickname)) {
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+            }
+            if(result.contains(nickname)) {
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
+            }
+            result.add(nickname);
+        }
+        return result;
     }
 }
