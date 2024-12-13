@@ -21,6 +21,10 @@ public class DayOfWeek {
         return orderedValue.contains(dayOfWeekCandidate);
     }
 
+    public boolean isHoliday(String dayOfWeek) {
+        return dayOfWeek.equals("토") || dayOfWeek.equals("일");
+    }
+
     public void orderedBy(SettingDate settingDate) {
         while(true) {
             String currentStart = orderedValue.peek();

@@ -1,11 +1,8 @@
 package oncall;
 
-import java.util.List;
-
 public class OutputView {
     public void show(WorkTable workTable) {
-        List<WorkInfo> workInfos = workTable.getWorkInfos();
-        for(WorkInfo workInfo : workInfos) {
+        for(WorkInfo workInfo : workTable.getValue()) {
             System.out.println(workInfo.getFormatted());
         }
     }
