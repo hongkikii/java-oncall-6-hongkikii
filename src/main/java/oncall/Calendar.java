@@ -1,5 +1,6 @@
 package oncall;
 
+import java.util.EnumSet;
 import java.util.List;
 
 public enum Calendar {
@@ -17,12 +18,12 @@ public enum Calendar {
     Dec(12, 31, List.of(25));
 
     private final int numOfMonth;
-    private final int endDay;
+    private final int lastDay;
     private final List<Integer> holiday;
 
-    Calendar(int numOfMonth, int endDay, List<Integer> holiday) {
+    Calendar(int numOfMonth, int lastDay, List<Integer> holiday) {
         this.numOfMonth = numOfMonth;
-        this.endDay = endDay;
+        this.lastDay = lastDay;
         this.holiday = holiday;
     }
 
@@ -30,8 +31,8 @@ public enum Calendar {
         return numOfMonth;
     }
 
-    public int getEndDay() {
-        return endDay;
+    public int getLastDay() {
+        return lastDay;
     }
 
     public List<Integer> getHoliday() {
@@ -42,44 +43,10 @@ public enum Calendar {
         return getHoliday().contains(day);
     }
 
-    public int getLastDay() {
-        return getEndDay();
-    }
-
     public static Calendar getBy(int numOfMonth) {
-        if (numOfMonth == 1) {
-            return Calendar.Jan;
-        }
-        if (numOfMonth == 2) {
-            return Calendar.Feb;
-        }
-        if (numOfMonth == 3) {
-            return Calendar.Mar;
-        }
-        if (numOfMonth == 4) {
-            return Calendar.Apr;
-        }
-        if (numOfMonth == 5) {
-            return Calendar.May;
-        }
-        if (numOfMonth == 6) {
-            return Calendar.Jun;
-        }
-        if (numOfMonth == 7) {
-            return Calendar.Jul;
-        }
-        if (numOfMonth == 8) {
-            return Calendar.Aug;
-        }
-        if (numOfMonth == 9) {
-            return Calendar.Sep;
-        }
-        if (numOfMonth == 10) {
-            return Calendar.Oct;
-        }
-        if (numOfMonth == 11) {
-            return Calendar.Nov;
-        }
-        return Calendar.Dec;
+        return EnumSet.allOf(Calendar.class).stream()
+                .filter(calendar -> calendar.getNumOfMonth() == numOfMonth)
+                .findFirst()
+                .orElse(null);
     }
 }
